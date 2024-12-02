@@ -135,25 +135,20 @@ def show_mission_3():
     Write this command to ask for a pet's name:
     ```python
     pet_name = input("What's your pet's name? ")
+    print(f"Nice to meet you, {pet_name}!")
     ```
     """)
     
-    # First: Let user write the input command
     user_code = st.text_area("Type your input command:", value=st.session_state.current_text, key="mission3_code", height=100)
     st.session_state.current_text = user_code
     
-    # Second: Get the actual pet name input
-    pet_name = st.text_input("What's your pet's name?")
-    
-    # Third: Show output when Run is clicked
     if st.button("Run My Program! 🎮", key="mission3_button"):
-        if 'input(' in user_code and 'pet_name' in user_code:
-            st.write("Your Program Says:")
-            st.code(f"Hello {pet_name}, what a good pet you are!")
+        if 'input(' in user_code and 'print' in user_code:
+            st.write("Great job! You've learned how to get user input! 🌟")
             st.balloons()
             st.session_state.completed_missions.add(3)
         else:
-            st.error("Make sure to use input() to ask for the pet's name!")
+            st.error("Make sure to use input() to ask a question and print() to show the answer!")
 
 def show_mission_4():
     st.title("🧮 Mission 4: Calculator Magic")
