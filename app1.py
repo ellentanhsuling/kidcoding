@@ -9,33 +9,38 @@ st.set_page_config(
     layout="wide"
 )
 
-# Initialize keyboard state
+# Initialize states
 if 'keyboard_visible' not in st.session_state:
     st.session_state.keyboard_visible = False
+if 'current_text' not in st.session_state:
+    st.session_state.current_text = ""
 
 def create_code_keyboard():
-    # Create rows of special characters with proper labels
-    row1 = [('plus', '+'), ('minus', '-'), ('multiply', '*'), ('divide', '/'), ('equals', '='), ('quote', '"')]
-    row2 = [('lparen', '('), ('rparen', ')'), ('lbrace', '{'), ('rbrace', '}'), ('lbracket', '['), ('rbracket', ']')]
-    row3 = [('less', '<'), ('greater', '>'), ('underscore', '_'), ('colon', ':'), ('comma', ','), ('quote2', "'")]
+    # Create rows of special characters
+    row1 = ['+', '-', '*', '/', '=', '"']
+    row2 = ['(', ')', '{', '}', '[', ']']
+    row3 = ['<', '>', '_', ':', ',', "'"]
     
     # Display Row 1
     cols = st.columns(len(row1))
     for i, col in enumerate(cols):
         with col:
-            st.button(row1[i][1], key=f'spec_{row1[i][0]}_{st.session_state.current_mission}')
+            if st.button(row1[i], key=f'key_{row1[i]}_{st.session_state.current_mission}'):
+                st.session_state.current_text += row1[i]
     
     # Display Row 2
     cols = st.columns(len(row2))
     for i, col in enumerate(cols):
         with col:
-            st.button(row2[i][1], key=f'spec_{row2[i][0]}_{st.session_state.current_mission}')
+            if st.button(row2[i], key=f'key_{row2[i]}_{st.session_state.current_mission}'):
+                st.session_state.current_text += row2[i]
     
     # Display Row 3
     cols = st.columns(len(row3))
     for i, col in enumerate(cols):
         with col:
-            st.button(row3[i][1], key=f'spec_{row3[i][0]}_{st.session_state.current_mission}')
+            if st.button(row3[i], key=f'key_{row3[i]}_{st.session_state.current_mission}'):
+                st.session_state.current_text += row3[i]
 
 def handle_input(prompt):
     return st.text_input(prompt)
@@ -71,7 +76,8 @@ def show_mission_1():
     print = Opening the box to show everyone!
     """)
 
-    user_code = st.text_area("Type your code here:", key="mission1_code", height=100)
+    user_code = st.text_area("Type your code here:", value=st.session_state.current_text, key="mission1_code", height=100)
+    st.session_state.current_text = user_code
     
     if st.button("Run My Code! 🚀", key="mission1_button"):
         try:
@@ -109,7 +115,9 @@ def show_mission_2():
     📦 power = Box for your superpower
     """)
     
-    user_code = st.text_area("Write your secret agent code:", key="mission2_code", height=150)
+    user_code = st.text_area("Write your secret agent code:", value=st.session_state.current_text, key="mission2_code", height=150)
+    st.session_state.current_text = user_code
+    
     if st.button("Run Secret Code 🕵️", key="mission2_button"):
         try:
             output_text = capture_output(user_code)
@@ -145,7 +153,9 @@ def show_mission_3():
     3. print() = Showing the answer in a fun way
     """)
     
-    user_code = st.text_area("Create your question program:", key="mission3_code", height=150)
+    user_code = st.text_area("Create your question program:", value=st.session_state.current_text, key="mission3_code", height=150)
+    st.session_state.current_text = user_code
+    
     if st.button("Run My Program! 🎮", key="mission3_button"):
         try:
             output_text = capture_output(user_code)
@@ -185,7 +195,9 @@ def show_mission_4():
     ➗ / for dividing
     """)
     
-    user_code = st.text_area("Create your calculator:", key="mission4_code", height=150)
+    user_code = st.text_area("Create your calculator:", value=st.session_state.current_text, key="mission4_code", height=150)
+    st.session_state.current_text = user_code
+    
     if st.button("Calculate! 🔢", key="mission4_button"):
         try:
             output_text = capture_output(user_code)
@@ -223,7 +235,9 @@ def show_mission_5():
     🏆 points = Score to win
     """)
     
-    user_code = st.text_area("Create your game:", key="mission5_code", height=150)
+    user_code = st.text_area("Create your game:", value=st.session_state.current_text, key="mission5_code", height=150)
+    st.session_state.current_text = user_code
+    
     if st.button("Play Game! 🎲", key="mission5_button"):
         try:
             output_text = capture_output(user_code)
