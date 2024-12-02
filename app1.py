@@ -37,9 +37,16 @@ def create_code_keyboard():
                 st.session_state.current_text += row2[i]
 
 def handle_input(prompt):
-    input_value = st.text_input(prompt, key=f"input_{st.session_state.current_mission}")
-    st.session_state.input_value = input_value
-    return input_value
+    col1, col2 = st.columns([3,1])
+    with col1:
+        input_value = st.text_input(prompt, key=f"input_{st.session_state.current_mission}")
+    with col2:
+        submit = st.button("Submit", key=f"submit_{st.session_state.current_mission}")
+    
+    if submit:
+        st.session_state.input_value = input_value
+        return input_value
+    return None
 
 def capture_output(code_to_execute):
     global input
