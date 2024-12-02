@@ -37,12 +37,7 @@ def create_code_keyboard():
                 st.session_state.current_text += row2[i]
 
 def handle_input(prompt):
-    col1, col2 = st.columns([3,1])
-    with col1:
-        input_value = st.text_input(prompt, key=f"input_{st.session_state.current_mission}")
-    with col2:
-        submit = st.button("Submit", key=f"submit_{st.session_state.current_mission}")
-    
+    input_value = st.text_input(prompt, key=f"input_{st.session_state.current_mission}")
     st.session_state.input_value = input_value
     return input_value
 
@@ -139,30 +134,35 @@ def show_mission_3():
     st.markdown("""
     ### Let's Make Your Computer Ask Questions!
     
-    Here's how to get answers from users:
+    Here's how to ask users for answers:
     ```python
     # Ask a question and store the answer in a box
     pet_name = input("What's your pet's name? ")
-    
-    # Use the answer from the box
-    print(f"Hello {pet_name}! You're such a good pet!")
     ```
     
     Think of it like:
     1. input() = Asking a question
     2. pet_name = Box to keep the answer
-    3. print() = Showing the answer in a fun way
+    
+    The computer will automatically show a friendly message using your answer!
     """)
     
-    user_code = st.text_area("Create your question program:", value=st.session_state.current_text, key="mission3_code", height=150)
+    user_code = st.text_area("Create your question:", value=st.session_state.current_text, key="mission3_code", height=150)
     st.session_state.current_text = user_code
     
     if st.button("Run My Program! 🎮", key="mission3_button"):
         try:
-            output_text = capture_output(user_code)
-            st.write("Your Program Says:")
-            st.code(output_text)
-            st.session_state.completed_missions.add(3)
+            # Execute user's input code
+            namespace = {}
+            exec(user_code, namespace)
+            # Automatically handle the print statement
+            if 'pet_name' in namespace:
+                st.write("Your Program Says:")
+                st.code(f"Hello {namespace['pet_name']}! You're such a good pet!")
+                st.balloons()
+                st.session_state.completed_missions.add(3)
+            else:
+                st.error("Make sure to store the answer in pet_name! 🐾")
         except Exception as e:
             st.error("Let's fix this together! 💪")
 
@@ -204,6 +204,7 @@ def show_mission_4():
             output_text = capture_output(user_code)
             st.write("Your Calculator Says:")
             st.code(output_text)
+            st.balloons()
             st.session_state.completed_missions.add(4)
         except Exception as e:
             st.error("Math needs a little fix! Try again! 💪")
@@ -244,6 +245,7 @@ def show_mission_5():
             output_text = capture_output(user_code)
             st.write("Game Says:")
             st.code(output_text)
+            st.balloons()
             st.session_state.completed_missions.add(5)
         except Exception as e:
             st.error("Game needs a tune-up! Try again! 💪")
