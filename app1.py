@@ -14,6 +14,8 @@ if 'keyboard_visible' not in st.session_state:
     st.session_state.keyboard_visible = False
 if 'current_text' not in st.session_state:
     st.session_state.current_text = ""
+if 'input_value' not in st.session_state:
+    st.session_state.input_value = ""
 
 def create_code_keyboard():
     # Create rows of special characters
@@ -35,7 +37,9 @@ def create_code_keyboard():
                 st.session_state.current_text += row2[i]
 
 def handle_input(prompt):
-    return st.text_input(prompt)
+    input_value = st.text_input(prompt, key=f"input_{st.session_state.current_mission}")
+    st.session_state.input_value = input_value
+    return input_value
 
 def capture_output(code_to_execute):
     global input
