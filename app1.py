@@ -9,23 +9,18 @@ st.set_page_config(
     layout="wide"
 )
 
+# Initialize keyboard state
+if 'show_keyboard' not in st.session_state:
+    st.session_state.show_keyboard = False
+
 def create_code_keyboard():
-    col1, col2, col3, col4, col5 = st.columns(5)
+    col1, col2, col3 = st.columns(3)
     with col1:
-        st.button('"', key=f'quote_{st.session_state.current_mission}')
-        st.button('(', key=f'paren1_{st.session_state.current_mission}')
-    with col2:
-        st.button(')', key=f'paren2_{st.session_state.current_mission}')
-        st.button('=', key=f'equals_{st.session_state.current_mission}')
-    with col3:
         st.button('print', key=f'print_{st.session_state.current_mission}')
+    with col2:
         st.button('input()', key=f'input_{st.session_state.current_mission}')
-    with col4:
-        st.button('{', key=f'brace1_{st.session_state.current_mission}')
-        st.button('}', key=f'brace2_{st.session_state.current_mission}')
-    with col5:
-        st.button('*', key=f'multiply_{st.session_state.current_mission}')
-        st.button('/', key=f'divide_{st.session_state.current_mission}')
+    with col3:
+        st.button('=', key=f'equals_{st.session_state.current_mission}')
 
 def handle_input(prompt):
     return st.text_input(prompt)
@@ -42,7 +37,9 @@ def capture_output(code_to_execute):
 def show_mission_1():
     st.title("🌟 Mission 1: Making Your Computer Talk!")
     
-    create_code_keyboard()
+    if st.session_state.show_keyboard:
+        st.info("Virtual keyboard activated - perfect for mobile devices! Click the buttons to insert code commands.")
+        create_code_keyboard()
     
     st.markdown("""
     ### Hey Future Coder! 
@@ -74,7 +71,9 @@ def show_mission_1():
 def show_mission_2():
     st.title("🗝️ Mission 2: Storing Secret Messages")
     
-    create_code_keyboard()
+    if st.session_state.show_keyboard:
+        st.info("Virtual keyboard activated - perfect for mobile devices! Click the buttons to insert code commands.")
+        create_code_keyboard()
     
     st.markdown("""
     ### Welcome Secret Agent Coder! 
@@ -109,7 +108,9 @@ def show_mission_2():
 def show_mission_3():
     st.title("🎤 Mission 3: Getting User Input")
     
-    create_code_keyboard()
+    if st.session_state.show_keyboard:
+        st.info("Virtual keyboard activated - perfect for mobile devices! Click the buttons to insert code commands.")
+        create_code_keyboard()
     
     st.markdown("""
     ### Let's Make Your Computer Ask Questions!
@@ -142,7 +143,9 @@ def show_mission_3():
 def show_mission_4():
     st.title("🧮 Mission 4: Calculator Magic")
     
-    create_code_keyboard()
+    if st.session_state.show_keyboard:
+        st.info("Virtual keyboard activated - perfect for mobile devices! Click the buttons to insert code commands.")
+        create_code_keyboard()
     
     st.markdown("""
     ### Time for Math Magic!
@@ -180,7 +183,9 @@ def show_mission_4():
 def show_mission_5():
     st.title("🎮 Mission 5: Number Games")
     
-    create_code_keyboard()
+    if st.session_state.show_keyboard:
+        st.info("Virtual keyboard activated - perfect for mobile devices! Click the buttons to insert code commands.")
+        create_code_keyboard()
     
     st.markdown("""
     ### Let's Make a Fun Number Game!
@@ -221,6 +226,12 @@ if 'completed_missions' not in st.session_state:
 
 # Sidebar navigation
 st.sidebar.title("📚 Beginner Missions")
+
+# Add keyboard toggle in sidebar
+st.sidebar.markdown("### 📱 Using iPad or iPhone?")
+if st.sidebar.button("Toggle Virtual Keyboard"):
+    st.session_state.show_keyboard = not st.session_state.show_keyboard
+
 mission_choice = st.sidebar.radio(
     "Choose your mission:",
     ["Mission 1: Computer Talk",
