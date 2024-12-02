@@ -14,30 +14,28 @@ if 'keyboard_visible' not in st.session_state:
     st.session_state.keyboard_visible = False
 
 def create_code_keyboard():
-    special_chars = ['"', "'", ':', ',', '+', '-', '*', '/', '=', '(', ')', '{', '}', '[', ']', '<', '>', '_']
-    
-    # Create rows of special characters
-    row1 = special_chars[:6]
-    row2 = special_chars[6:12]
-    row3 = special_chars[12:]
+    # Create rows of special characters with proper labels
+    row1 = [('plus', '+'), ('minus', '-'), ('multiply', '*'), ('divide', '/'), ('equals', '='), ('quote', '"')]
+    row2 = [('lparen', '('), ('rparen', ')'), ('lbrace', '{'), ('rbrace', '}'), ('lbracket', '['), ('rbracket', ']')]
+    row3 = [('less', '<'), ('greater', '>'), ('underscore', '_'), ('colon', ':'), ('comma', ','), ('quote2', "'")]
     
     # Display Row 1
     cols = st.columns(len(row1))
     for i, col in enumerate(cols):
         with col:
-            st.button(row1[i], key=f'spec_{row1[i]}_{st.session_state.current_mission}')
+            st.button(row1[i][1], key=f'spec_{row1[i][0]}_{st.session_state.current_mission}')
     
     # Display Row 2
     cols = st.columns(len(row2))
     for i, col in enumerate(cols):
         with col:
-            st.button(row2[i], key=f'spec_{row2[i]}_{st.session_state.current_mission}')
+            st.button(row2[i][1], key=f'spec_{row2[i][0]}_{st.session_state.current_mission}')
     
     # Display Row 3
     cols = st.columns(len(row3))
     for i, col in enumerate(cols):
         with col:
-            st.button(row3[i], key=f'spec_{row3[i]}_{st.session_state.current_mission}')
+            st.button(row3[i][1], key=f'spec_{row3[i][0]}_{st.session_state.current_mission}')
 
 def handle_input(prompt):
     return st.text_input(prompt)
