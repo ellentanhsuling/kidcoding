@@ -17,9 +17,8 @@ if 'current_text' not in st.session_state:
 
 def create_code_keyboard():
     # Create rows of special characters
-    row1 = ['+', '-', '*', '/', '=', '"']
-    row2 = ['(', ')', '{', '}', '[', ']']
-    row3 = ['<', '>', '_', ':', ',', "'"]
+    row1 = ['"', "'", ':', '(', ')', '_']
+    row2 = ['{', '}', '[', ']', '<', '>']
     
     # Display Row 1
     cols = st.columns(len(row1))
@@ -34,13 +33,6 @@ def create_code_keyboard():
         with col:
             if st.button(row2[i], key=f'key_{row2[i]}_{st.session_state.current_mission}'):
                 st.session_state.current_text += row2[i]
-    
-    # Display Row 3
-    cols = st.columns(len(row3))
-    for i, col in enumerate(cols):
-        with col:
-            if st.button(row3[i], key=f'key_{row3[i]}_{st.session_state.current_mission}'):
-                st.session_state.current_text += row3[i]
 
 def handle_input(prompt):
     return st.text_input(prompt)
