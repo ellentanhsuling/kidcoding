@@ -10,17 +10,44 @@ st.set_page_config(
 )
 
 # Initialize keyboard state
-if 'show_keyboard' not in st.session_state:
-    st.session_state.show_keyboard = False
+if 'keyboard_visible' not in st.session_state:
+    st.session_state.keyboard_visible = False
 
 def create_code_keyboard():
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.button('print', key=f'print_{st.session_state.current_mission}')
-    with col2:
-        st.button('input()', key=f'input_{st.session_state.current_mission}')
-    with col3:
-        st.button('=', key=f'equals_{st.session_state.current_mission}')
+    # Row 1 - Numbers
+    numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
+    cols = st.columns(len(numbers))
+    for i, col in enumerate(cols):
+        with col:
+            st.button(numbers[i], key=f'num_{numbers[i]}_{st.session_state.current_mission}')
+    
+    # Row 2 - First row of letters
+    letters_1 = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
+    cols = st.columns(len(letters_1))
+    for i, col in enumerate(cols):
+        with col:
+            st.button(letters_1[i], key=f'let_{letters_1[i]}_{st.session_state.current_mission}')
+    
+    # Row 3 - Second row of letters
+    letters_2 = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L']
+    cols = st.columns(len(letters_2))
+    for i, col in enumerate(cols):
+        with col:
+            st.button(letters_2[i], key=f'let_{letters_2[i]}_{st.session_state.current_mission}')
+    
+    # Row 4 - Third row of letters
+    letters_3 = ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
+    cols = st.columns(len(letters_3))
+    for i, col in enumerate(cols):
+        with col:
+            st.button(letters_3[i], key=f'let_{letters_3[i]}_{st.session_state.current_mission}')
+    
+    # Row 5 - Special characters for Python
+    special = ['print()', 'input()', '=', '"', '(', ')', '+', '-', '*', '/']
+    cols = st.columns(len(special))
+    for i, col in enumerate(cols):
+        with col:
+            st.button(special[i], key=f'spec_{i}_{st.session_state.current_mission}')
 
 def handle_input(prompt):
     return st.text_input(prompt)
@@ -37,8 +64,8 @@ def capture_output(code_to_execute):
 def show_mission_1():
     st.title("🌟 Mission 1: Making Your Computer Talk!")
     
-    if st.session_state.show_keyboard:
-        st.info("Virtual keyboard activated - perfect for mobile devices! Click the buttons to insert code commands.")
+    if st.session_state.keyboard_visible:
+        st.info("Virtual keyboard ready! Click keys to type.")
         create_code_keyboard()
     
     st.markdown("""
@@ -71,8 +98,8 @@ def show_mission_1():
 def show_mission_2():
     st.title("🗝️ Mission 2: Storing Secret Messages")
     
-    if st.session_state.show_keyboard:
-        st.info("Virtual keyboard activated - perfect for mobile devices! Click the buttons to insert code commands.")
+    if st.session_state.keyboard_visible:
+        st.info("Virtual keyboard ready! Click keys to type.")
         create_code_keyboard()
     
     st.markdown("""
@@ -108,8 +135,8 @@ def show_mission_2():
 def show_mission_3():
     st.title("🎤 Mission 3: Getting User Input")
     
-    if st.session_state.show_keyboard:
-        st.info("Virtual keyboard activated - perfect for mobile devices! Click the buttons to insert code commands.")
+    if st.session_state.keyboard_visible:
+        st.info("Virtual keyboard ready! Click keys to type.")
         create_code_keyboard()
     
     st.markdown("""
@@ -143,8 +170,8 @@ def show_mission_3():
 def show_mission_4():
     st.title("🧮 Mission 4: Calculator Magic")
     
-    if st.session_state.show_keyboard:
-        st.info("Virtual keyboard activated - perfect for mobile devices! Click the buttons to insert code commands.")
+    if st.session_state.keyboard_visible:
+        st.info("Virtual keyboard ready! Click keys to type.")
         create_code_keyboard()
     
     st.markdown("""
@@ -183,8 +210,8 @@ def show_mission_4():
 def show_mission_5():
     st.title("🎮 Mission 5: Number Games")
     
-    if st.session_state.show_keyboard:
-        st.info("Virtual keyboard activated - perfect for mobile devices! Click the buttons to insert code commands.")
+    if st.session_state.keyboard_visible:
+        st.info("Virtual keyboard ready! Click keys to type.")
         create_code_keyboard()
     
     st.markdown("""
@@ -228,9 +255,9 @@ if 'completed_missions' not in st.session_state:
 st.sidebar.title("📚 Beginner Missions")
 
 # Add keyboard toggle in sidebar
-st.sidebar.markdown("### 📱 Using iPad or iPhone?")
-if st.sidebar.button("Toggle Virtual Keyboard"):
-    st.session_state.show_keyboard = not st.session_state.show_keyboard
+st.sidebar.markdown("### 📱 Virtual Keyboard")
+if st.sidebar.button("Show/Hide Keyboard", key='keyboard_toggle'):
+    st.session_state.keyboard_visible = not st.session_state.keyboard_visible
 
 mission_choice = st.sidebar.radio(
     "Choose your mission:",
